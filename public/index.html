@@ -21,26 +21,33 @@
   <main>
     <section class="estatisticas">
       <div class="stat"><span class="stat-icone">🎓</span><div><b id="est-alunos">0</b><small>Alunos registados</small></div></div>
-      <div class="stat"><span class="stat-icone">📋</span><div><b id="est-ocorrencias">0</b><small>Ocorrências</small></div></div>
-      <div class="stat grave"><span class="stat-icone">🔴</span><div><b id="est-graves">0</b><small>Ocorrências graves</small></div></div>
+      <div class="stat"><span class="stat-icone">⏳</span><div><b id="est-ocorrencias">0</b><small>Ocorrências pendentes</small></div></div>
+      <div class="stat grave"><span class="stat-icone">🔴</span><div><b id="est-graves">0</b><small>Graves pendentes</small></div></div>
     </section>
 
     <section class="barra">
-      <input id="pesquisa" type="search" placeholder="🔍  Pesquisar por nome, turma ou sala...">
+      <input id="pesquisa" type="search" placeholder="🔍  Pesquisar por nome ou sala...">
+      <select id="f-classe"><option value="">Todas as classes</option></select>
+      <select id="f-turma"><option value="">Todas as turmas</option></select>
       <button id="btn-novo-aluno" class="btn">+ Novo aluno</button>
     </section>
+    <p id="info-lista" class="suave info-lista"></p>
 
     <div id="resultados" class="lista"></div>
   </main>
+
+  <!-- Janela: perfil do aluno -->
+  <dialog id="dlg-perfil"><div id="perfil-conteudo" class="perfil"></div></dialog>
 
   <!-- Janela: registar aluno -->
   <dialog id="dlg-aluno">
     <form id="form-aluno" class="dialogo">
       <h2>Registar aluno</h2>
       <label>Nome completo <input name="nome" required></label>
+      <label>Classe <select name="classe" id="sel-classe-novo" required></select></label>
       <div class="duas-colunas">
+        <label>Turma <input name="turma" placeholder="Ex.: A" required></label>
         <label>Sala <input name="sala" required></label>
-        <label>Turma <input name="turma" required></label>
       </div>
       <label>Nº de emergência <input name="emergencia" type="tel" required></label>
       <label>Nº do encarregado <input name="encarregado" type="tel" required></label>

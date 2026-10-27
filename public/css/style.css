@@ -137,3 +137,44 @@ dialog::backdrop { background: #0f172acc; }
   .user-info { display: none; }
   .barra { flex-direction: column; }
 }
+/* ===== v18: cartões compactos, perfil e filtros ===== */
+.barra { flex-wrap: wrap; }
+.barra input { flex: 1; min-width: 220px; }
+.barra select { width: auto; min-width: 170px; }
+.info-lista { margin: -8px 0 14px; font-size: .9rem; }
+
+.lista { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.aluno { height: 215px; cursor: pointer; justify-content: space-between; gap: 10px;
+  overflow: hidden; transition: .15s; }
+.aluno:hover { transform: translateY(-3px); box-shadow: 0 10px 24px #0002; }
+.aluno-id h3, .aluno-id p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .8rem; font-weight: 600; background: #f1f5f9; color: #334155;
+  padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+.aluno .acoes { align-items: center; justify-content: space-between; }
+.ver { color: var(--primaria); font-weight: 600; font-size: .85rem; }
+
+.btn-pequeno { padding: 7px 12px; font-size: .85rem; }
+.btn-ok { background: var(--leve); }
+.btn-ok:hover { background: #15803d; }
+.selo.ok { background: var(--leve-bg); color: var(--leve); }
+
+/* Perfil do aluno */
+#dlg-perfil { width: min(780px, 95vw); }
+.perfil { padding: 24px; display: flex; flex-direction: column; gap: 16px; max-height: 90vh; overflow-y: auto; }
+.perfil-topo { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.perfil-topo .aluno-id { flex: 1; }
+.avatar-grande { width: 60px; height: 60px; font-size: 1.3rem; }
+.motivo { font-size: .9rem; color: var(--suave); }
+.contadores.tres { grid-template-columns: repeat(3, 1fr); }
+
+.abas { display: flex; gap: 8px; }
+.aba { padding: 8px 14px; border: 2px solid var(--borda); background: #fff; border-radius: 99px;
+  font: inherit; font-weight: 600; font-size: .85rem; cursor: pointer; }
+.aba.ativa { background: var(--primaria); border-color: var(--primaria); color: #fff; }
+
+.perfil-lista { display: flex; flex-direction: column; gap: 10px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+.ocorrencia.resolvida { opacity: .7; }
+.oc-rodape { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; }
+.oc-selos { display: flex; gap: 6px; }
