@@ -178,3 +178,37 @@ dialog::backdrop { background: #0f172acc; }
 .ocorrencia.resolvida { opacity: .7; }
 .oc-rodape { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; }
 .oc-selos { display: flex; gap: 6px; }
+/* ===== v22: aspeto sóbrio ===== */
+:root {
+  --primaria: #1e3a5f; --primaria-esc: #16304d;
+  --fundo: #f4f5f7; --texto: #1f2933; --suave: #616e7c; --borda: #d9dee4; --raio: 6px;
+  --leve: #2f7d4f;  --leve-bg: #e6f2ea;
+  --media: #b7791f; --media-bg: #fbf1dc;
+  --grave: #b42318; --grave-bg: #fbe5e3;
+}
+.topo { background: #1e3a5f; box-shadow: none; border-bottom: 3px solid #152a45; }
+.logo, .stat-icone, .logo-grande { display: none; }
+.stat { box-shadow: none; border: 1px solid var(--borda); border-left: 4px solid var(--primaria); }
+.stat.grave { border-left-color: var(--grave); }
+.aluno { box-shadow: none; border: 1px solid var(--borda); border-top: 4px solid var(--leve); }
+.aluno.nivel-medio { border-top-color: var(--media); }
+.aluno.nivel-alto  { border-top-color: var(--grave); }
+.aluno:hover { transform: none; box-shadow: 0 2px 10px #0002; }
+.avatar { background: #52606d; border-radius: 6px; }
+.btn, input, select, textarea { border-radius: 6px; }
+.btn:hover { transform: none; }
+dialog { border-radius: 8px; }
+.semaforo, .selo, .chip, .aba { border-radius: 4px; }
+.pagina-login { background: #e9edf2; }
+.login-caixa { box-shadow: 0 4px 24px #0002; border-radius: 8px; }
+.login-lado { background: #1e3a5f; }
+
+/* pontos de cor no lugar dos emojis */
+.semaforo::before, .selo.leve::before, .selo.media::before, .selo.grave::before,
+.pilula span::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: 6px; background: currentColor;
+}
+.pilula.leve  span::before { background: var(--leve); }
+.pilula.media span::before { background: var(--media); }
+.pilula.grave span::before { background: var(--grave); }

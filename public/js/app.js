@@ -3,11 +3,11 @@ const esc = t => String(t).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const GRAV = {
-  leve:  { txt: 'Leve',  cls: 'leve',  sinal: '🟢' },
-  media: { txt: 'Média', cls: 'media', sinal: '🟡' },
-  grave: { txt: 'Grave', cls: 'grave', sinal: '🔴' }
+  leve:  { txt: 'Leve',  cls: 'leve',  sinal: '' },
+  media: { txt: 'Média', cls: 'media', sinal: '' },
+  grave: { txt: 'Grave', cls: 'grave', sinal: '' }
 };
-const NIVEL = { baixo: '🟢 Situação normal', medio: '🟡 Atenção', alto: '🔴 Acompanhamento' };
+const NIVEL = { baixo: 'Situação normal', medio: 'Atenção', alto: 'Acompanhamento' };
 
 let sessao = null, categorias = [], alunos = [], perfil = null, abaAtual = 'todas', alunoOc = null, temporizador;
 
@@ -37,9 +37,9 @@ function cartaoHtml(a) {
       </div>
       <div><span class="semaforo ${a.nivel}">${NIVEL[a.nivel]}</span></div>
       <div class="chips">
-        <span class="chip">📋 ${a.totalOcorrencias} total</span>
-        <span class="chip">⏳ ${a.pendentes} pendentes</span>
-        <span class="chip">🟢 ${c.leve} 🟡 ${c.media} 🔴 ${c.grave}</span>
+        <span class="chip">${a.totalOcorrencias} total</span>
+        <span class="chip">${a.pendentes} pendentes</span>
+        <span class="chip">${c.leve} leve · ${c.media} média · ${c.grave} grave</span>
       </div>
       <div class="acoes">
         <button class="btn btn-pequeno" data-acao="ocorrencia" data-id="${a.id}">+ Ocorrência</button>
@@ -56,9 +56,9 @@ function ocorrenciaHtml(o) {
   return `
     <div class="ocorrencia ${g.cls} ${res ? 'resolvida' : ''}">
       <div class="oc-topo">
-        <span class="oc-cat">${esc(c.icone)} ${esc(c.nome)}</span>
+        <span class="oc-cat">${esc(c.nome)}</span>
         <span class="oc-selos">
-          ${res ? '<span class="selo ok">✔ Resolvida</span>' : ''}
+          ${res ? '<span class="selo ok">Resolvida</span>' : ''}
           <span class="selo ${g.cls}">${g.sinal} ${g.txt}</span>
         </span>
       </div>
@@ -67,7 +67,7 @@ function ocorrenciaHtml(o) {
         <small>${esc(formatarData(o.data))}${o.professor ? ' · ' + esc(o.professor) : ''}
           ${res && o.resolvidaPor ? `<br>Resolvida por ${esc(o.resolvidaPor)} em ${esc(formatarData(o.resolvidaEm))}` : ''}</small>
         ${o.id ? `<button class="btn btn-pequeno ${res ? 'btn-claro-esc' : 'btn-ok'}"
-          data-acao="resolver" data-oc="${o.id}" data-estado="${res ? 0 : 1}">${res ? 'Reabrir' : '✔ Resolver'}</button>` : ''}
+          data-acao="resolver" data-oc="${o.id}" data-estado="${res ? 0 : 1}">${res ? 'Reabrir' : 'Resolver'}</button>` : ''}
       </div>
     </div>`;
 }
@@ -87,18 +87,18 @@ function renderPerfil() {
     <p class="motivo">${esc(a.motivo)}</p>
 
     <div class="contactos">
-      <span>🚨 Emergência: <b>${esc(a.emergencia)}</b></span>
-      <span>👤 Encarregado: <b>${esc(a.encarregado)}</b></span>
+      <span>Emergência: <b>${esc(a.emergencia)}</b></span>
+      <span>Encarregado: <b>${esc(a.encarregado)}</b></span>
     </div>
 
     <div class="contadores tres">
       <div class="contador"><b>${a.totalOcorrencias}</b><small>Total</small></div>
-      <div class="contador media"><b>${a.pendentes}</b><small>⏳ Pendentes</small></div>
-      <div class="contador leve"><b>${a.resolvidas}</b><small>✔ Resolvidas</small></div>
+      <div class="contador media"><b>${a.pendentes}</b><small>Pendentes</small></div>
+      <div class="contador leve"><b>${a.resolvidas}</b><small>Resolvidas</small></div>
     </div>
     <div class="chips">
       <span class="chip">Pendentes por gravidade:</span>
-      <span class="chip">🟢 ${c.leve} leves</span><span class="chip">🟡 ${c.media} médias</span><span class="chip">🔴 ${c.grave} graves</span>
+      <span class="chip">sinal: '' ${c.leve} leves</span><span class="chip">${c.media} médias</span><span class="chip">${c.grave} graves</span>
     </div>
 
     <div class="abas">
@@ -260,7 +260,7 @@ $('btn-sair').onclick = async () => {
   $('user-nome').textContent = sessao.nome;
   $('user-perfil').textContent = sessao.perfil === 'coordenador' ? 'Coordenador' : 'Professor';
   categorias = await api('/api/categorias');
-  $('categoria').innerHTML = categorias.map(c => `<option value="${esc(c.id)}">${esc(c.icone)} ${esc(c.nome)}</option>`).join('');
+  $('categoria').innerHTML = categorias.map(c => `<option value="${esc(c.id)}">${esc(c.nome)}</option>`).join('');
   $('categoria').dispatchEvent(new Event('change'));
   $('sel-classe-novo').innerHTML = '<option value="">Escolha...</option>' +
     Array.from({ length: 13 }, (_, i) => `<option>${i + 1}ª Classe</option>`).join('');
