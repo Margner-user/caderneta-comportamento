@@ -1,29 +1,46 @@
 [
   {
-    "id": 1793088946617,
+    "id": 1793136788171,
+    "nome": "lala lala",
+    "classe": "1ª Classe",
+    "turma": "A",
+    "sala": "1",
+    "emergencia": "912345678",
+    "encarregado": "912345678",
     "ocorrencias": [
       {
-        "id": 1793090265972,
-        "data": "2026-10-27T08:37:45.972Z",
-        "categoria": "comportamento",
+        "id": 1793136808775,
+        "data": "2026-10-27T21:33:28.775Z",
+        "categoria": "atraso",
+        "gravidade": "leve",
+        "descricao": "Chegou as 8 e 30",
+        "professor": "João Mendes",
+        "resolvida": true,
+        "resolvidaPor": "João Mendes",
+        "resolvidaEm": "2026-10-27T21:56:00.270Z"
+      },
+      {
+        "id": 1793136838848,
+        "data": "2026-10-27T21:33:58.848Z",
+        "categoria": "telemovel",
+        "gravidade": "media",
+        "descricao": "Usou o telemóvel durante a aula",
+        "professor": "João Mendes",
+        "resolvida": true,
+        "resolvidaPor": "João Mendes",
+        "resolvidaEm": "2026-10-27T21:56:00.869Z"
+      },
+      {
+        "id": 1793136877034,
+        "data": "2026-10-27T21:34:37.034Z",
+        "categoria": "agressao",
         "gravidade": "grave",
-        "descricao": "secura na aula",
-        "professor": "Maria Silva"
+        "descricao": "Lutou na sala com o seu colega",
+        "professor": "João Mendes",
+        "resolvida": true,
+        "resolvidaPor": "João Mendes",
+        "resolvidaEm": "2026-10-27T21:56:39.237Z"
       }
-    ],
-    "nome": "Olavio",
-    "sala": "as",
-    "turma": "as",
-    "emergencia": "as",
-    "encarregado": "aa"
-  },
-  {
-    "id": 1793088957354,
-    "ocorrencias": [],
-    "nome": "asd",
-    "sala": "as",
-    "turma": "s",
-    "emergencia": "s",
-    "encarregado": "9999999"
+    ]
   }
 ]
