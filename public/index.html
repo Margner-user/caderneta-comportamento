@@ -41,16 +41,40 @@
 
   <!-- Janela: registar aluno -->
   <dialog id="dlg-aluno">
-    <form id="form-aluno" class="dialogo">
+       <form id="form-aluno" class="dialogo">
       <h2>Registar aluno</h2>
-      <label>Nome completo <input name="nome" required></label>
-      <label>Classe <select name="classe" id="sel-classe-novo" required></select></label>
+      <label>Nome completo
+        <input name="nome" required minlength="5" maxlength="80" autocomplete="off"
+          pattern="[^0-9]{5,80}" title="Escreva o nome completo, sem números (ex.: João Vicente)">
+      </label>
+      <label>Classe
+        <select name="classe" id="sel-classe-novo" required>
+          <option value="">Escolha a classe...</option>
+          <option>1ª Classe</option><option>2ª Classe</option><option>3ª Classe</option>
+          <option>4ª Classe</option><option>5ª Classe</option><option>6ª Classe</option>
+          <option>7ª Classe</option><option>8ª Classe</option><option>9ª Classe</option>
+          <option>10ª Classe</option><option>11ª Classe</option><option>12ª Classe</option>
+          <option>13ª Classe</option>
+        </select>
+      </label>
       <div class="duas-colunas">
-        <label>Turma <input name="turma" placeholder="Ex.: A" required></label>
-        <label>Sala <input name="sala" required></label>
+        <label>Turma
+          <input name="turma" placeholder="Ex.: A" required maxlength="3" style="text-transform:uppercase"
+            pattern="[A-Za-z0-9]{1,3}" title="1 a 3 letras ou números (ex.: A, B, 2, A1)">
+        </label>
+        <label>Sala
+          <input name="sala" placeholder="Ex.: 12" required maxlength="10"
+            pattern="[A-Za-z0-9][A-Za-z0-9 ]{0,9}" title="Letras e números (ex.: 12, B3, Lab 1)">
+        </label>
       </div>
-      <label>Nº de emergência <input name="emergencia" type="tel" required></label>
-      <label>Nº do encarregado <input name="encarregado" type="tel" required></label>
+      <label>Nº de emergência
+        <input name="emergencia" type="tel" inputmode="numeric" placeholder="923456789" required
+          pattern="\+?[0-9]{9,15}" title="Só dígitos, 9 a 15 (ex.: 923456789 ou +244923456789)">
+      </label>
+      <label>Nº do encarregado
+        <input name="encarregado" type="tel" inputmode="numeric" placeholder="923456789" required
+          pattern="\+?[0-9]{9,15}" title="Só dígitos, 9 a 15 (ex.: 923456789 ou +244923456789)">
+      </label>
       <p id="erro-aluno" class="erro"></p>
       <div class="dialogo-acoes">
         <button type="button" class="btn btn-claro-esc" data-fechar="dlg-aluno">Cancelar</button>

@@ -31,6 +31,31 @@ function resumo(a) {
   const nivel = contagem.grave >= 1 || pontos >= 8 ? 'alto' : pontos >= 4 ? 'medio' : 'baixo';
   return { ...a, ocorrencias, totalOcorrencias: ocorrencias.length, contagem, pontos, nivel };
 }
+// Valida e normaliza os dados de um aluno. Devolve { erro } ou { dados }.
+function validarAluno(d) {
+  const nome = String(d.nome || '').trim().replace(/\s+/g, ' ');
+  const classe = String(d.classe || '').trim();
+  const turma = String(d.turma || '').trim().toUpperCase();
+  const sala = String(d.sala || '').trim();
+  const tel = v => String(v || '').replace(/[\s.-]/g, '');
+  const emergencia = tel(d.emergencia), encarregado = tel(d.encarregado);
+
+  if (nome.length < 5 || nome.length > 80 || nome.split(' ').length < 2 || !/^[\p{L}][\p{L}' -]+$/u.test(nome))
+    return { erro: 'Nome inválido: escreva o nome completo, só com letras (ex.: João Vicente).' };
+  if (!classes.includes(classe))
+    return { erro: 'Classe inválida. Valores aceites: ' + classes.join(', ') + '.' };
+  if (!/^[A-Z0-9]{1,3}$/.test(turma))
+    return { erro: 'Turma inválida. Use 1 a 3 letras ou números (ex.: A, B, 2, A1).' };
+  if (!/^[\p{L}\d][\p{L}\d .-]{0,9}$/u.test(sala))
+    return { erro: 'Sala inválida (ex.: 12, B3, Lab 1).' };
+  const telOk = /^\+?\d{9,15}$/;
+  if (!telOk.test(emergencia))
+    return { erro: 'Nº de emergência inválido: use só dígitos, 9 a 15 (ex.: 923456789 ou +244923456789).' };
+  if (!telOk.test(encarregado))
+    return { erro: 'Nº do encarregado inválido: use só dígitos, 9 a 15 (ex.: 923456789 ou +244923456789).' };
+
+  return { dados: { nome, classe, turma, sala, emergencia, encarregado } };
+}
 
 http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
@@ -75,17 +100,18 @@ http.createServer(async (req, res) => {
     }
 
     // Registar aluno
+       // Registar aluno (com validação)
     if (p === '/api/alunos' && req.method === 'POST') {
-      const d = await corpo(req);
-      const campos = ['nome', 'sala', 'turma', 'emergencia', 'encarregado'];
-      if (campos.some(c => !d[c] || !String(d[c]).trim()))
-        return json(res, 400, { erro: 'Preencha todos os campos.' });
+      const v = validarAluno(await corpo(req));
+      if (v.erro) return json(res, 400, { erro: v.erro });
       const lista = ler();
-      const aluno = { id: Date.now(), ocorrencias: [] };
-      campos.forEach(c => aluno[c] = String(d[c]).trim());
+      const repetido = lista.some(a => norm(a.nome) === norm(v.dados.nome)
+        && a.classe === v.dados.classe && norm(a.turma) === norm(v.dados.turma));
+      if (repetido) return json(res, 409, { erro: 'Já existe um aluno com esse nome nesta classe e turma.' });
+      const aluno = { id: Date.now(), ...v.dados, ocorrencias: [] };
       lista.push(aluno);
       gravar(lista);
-      return json(res, 201, resumo(aluno));
+      return json(res, 201, paraLista(aluno));
     }
 
     // Adicionar ocorrência (com categoria e gravidade)
@@ -124,8 +150,7 @@ const fs = require('fs');
 const path = require('path');
 const { ler, gravar } = require('./storage');
 const auth = require('./auth');
-const { categorias, gravidades, regras } = require('./categorias');
-
+const { categorias, gravidades, regras, classes } = require('./categorias');
 const PUB = path.join(__dirname, '..', 'public');
 const TIPOS = {
   '.html': 'text/html; charset=utf-8',
