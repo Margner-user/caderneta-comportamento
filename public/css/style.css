@@ -1,0 +1,13 @@
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; margin: 0; background: #f2f4f8; color: #222; }
+header { background: #1f4e79; color: #fff; padding: 16px 24px; }
+main { max-width: 900px; margin: 20px auto; padding: 0 12px; }
+.cartao { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 20px; box-shadow: 0 1px 4px #0002; }
+.grelha { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+input { padding: 9px; border: 1px solid #bbb; border-radius: 5px; width: 100%; }
+button { padding: 9px 14px; background: #1f4e79; color: #fff; border: 0; border-radius: 5px; cursor: pointer; }
+button:hover { background: #163a5a; }
+.aluno { border: 1px solid #dde; border-radius: 6px; padding: 12px; margin-top: 12px; }
+.aluno h3 { margin: 0 0 6px; }
+.ocorrencia { background: #fff4e5; border-left: 4px solid #e69500; padding: 6px 10px; margin: 6px 0; }
+#msg { color: #b00020; }
