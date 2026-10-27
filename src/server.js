@@ -212,14 +212,37 @@ async function tratar(req, res) {
       gravar(lista);
       return json(res, 200, resumo(aluno));
     }
+        // Gestão de utilizadores (só coordenador)
+    if (p === '/api/utilizadores') {
+      if (sessao.perfil !== 'coordenador') return json(res, 403, { erro: 'Apenas coordenadores.' });
+      if (req.method === 'GET') {
+        const lista = auth.listarUtilizadores();
+        return json(res, 200, {
+          total: lista.length,
+          professores: lista.filter(u => u.perfil === 'professor').length,
+          coordenadores: lista.filter(u => u.perfil === 'coordenador').length,
+          online: lista.filter(u => u.online).length,
+          lista
+        });
+      }
+      if (req.method === 'POST') {
+        const r = auth.criarUtilizador(await corpo(req), sessao.nome);
+        if (r.erro) return json(res, 400, { erro: r.erro });
+        return json(res, 201, { ok: true });
+      }
+    }
 
     return json(res, 404, { erro: 'Rota não encontrada.' });
   }
 
   // Ficheiros estáticos
   const rel = p === '/' ? '/index.html' : p;
-  if (rel === '/index.html' && !sessao) {
+    if ((rel === '/index.html' || rel === '/utilizadores.html') && !sessao) {
     res.writeHead(302, { Location: '/login.html' });
+    return res.end();
+  }
+  if (rel === '/utilizadores.html' && sessao.perfil !== 'coordenador') {
+    res.writeHead(302, { Location: '/' });   // professores não entram nesta página
     return res.end();
   }
   const ficheiro = path.join(PUB, rel);

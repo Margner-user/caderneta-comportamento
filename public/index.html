@@ -14,6 +14,7 @@
     </div>
     <div class="utilizador">
       <div class="user-info"><strong id="user-nome"></strong><small id="user-perfil"></small></div>
+      <a id="link-utilizadores" href="/utilizadores.html" class="btn btn-claro" hidden>Utilizadores</a>
       <button id="btn-sair" class="btn btn-claro">Sair</button>
     </div>
   </header>
@@ -32,7 +33,13 @@
       <button id="btn-novo-aluno" class="btn">+ Novo aluno</button>
     </section>
     <p id="info-lista" class="suave info-lista"></p>
-
+    <section id="painel-online" class="cartao-online" hidden>
+      <div class="online-topo">
+        <h2>Utilizadores online <span id="online-total" class="chip">0</span></h2>
+        <small class="suave">Atividade nos últimos 5 minutos</small>
+      </div>
+      <div id="online-lista"></div>
+    </section>
     <div id="resultados" class="lista"></div>
   </main>
 

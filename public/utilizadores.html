@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Utilizadores – Caderneta de Comportamento</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <div><h1>Caderneta</h1><small>Gestão de utilizadores</small></div>
+    </div>
+    <div class="utilizador">
+      <a href="/" class="btn btn-claro">Voltar à caderneta</a>
+      <button id="btn-sair" class="btn btn-claro">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="estatisticas">
+      <div class="stat"><div><b id="n-total">0</b><small>Utilizadores</small></div></div>
+      <div class="stat"><div><b id="n-prof">0</b><small>Professores</small></div></div>
+      <div class="stat"><div><b id="n-coord">0</b><small>Coordenadores</small></div></div>
+      <div class="stat"><div><b id="n-online">0</b><small>Online agora</small></div></div>
+    </section>
+
+    <section class="barra">
+      <h2 style="flex:1">Contas de acesso</h2>
+      <button id="btn-novo" class="btn">+ Novo utilizador</button>
+    </section>
+
+    <div class="tabela-caixa">
+      <table class="tabela">
+        <thead>
+          <tr><th>Nome</th><th>Utilizador</th><th>Perfil</th><th>Estado</th><th>Último acesso</th></tr>
+        </thead>
+        <tbody id="corpo-tabela"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <dialog id="dlg-user">
+    <form id="form-user" class="dialogo">
+      <h2>Novo utilizador</h2>
+      <label>Nome completo
+        <input name="nome" required minlength="5" maxlength="80" autocomplete="off">
+      </label>
+      <label>Nome de utilizador
+        <input name="utilizador" required placeholder="ex.: prof.ana" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{2,29}"
+          title="3 a 30 caracteres: letras, números, ponto ou hífen" autocomplete="off">
+      </label>
+      <label>Perfil
+        <select name="perfil" required>
+          <option value="professor">Professor</option>
+          <option value="coordenador">Coordenador</option>
+        </select>
+      </label>
+      <label>Palavra-passe
+        <input name="senha" type="password" required minlength="8" autocomplete="new-password">
+      </label>
+      <label>Confirmar palavra-passe
+        <input name="confirmar" type="password" required minlength="8" autocomplete="new-password">
+      </label>
+      <p class="suave">Mínimo 8 caracteres, com letras e números.</p>
+      <p id="erro-user" class="erro"></p>
+      <div class="dialogo-acoes">
+        <button type="button" class="btn btn-claro-esc" id="btn-cancelar">Cancelar</button>
+        <button type="submit" class="btn">Criar conta</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/utilizadores.js"></script>
+</body>
+</html>

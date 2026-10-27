@@ -98,7 +98,7 @@ function renderPerfil() {
     </div>
     <div class="chips">
       <span class="chip">Pendentes por gravidade:</span>
-      <span class="chip">sinal: '' ${c.leve} leves</span><span class="chip">${c.media} médias</span><span class="chip">${c.grave} graves</span>
+      <span class="chip"> ${c.leve} leves</span><span class="chip">${c.media} médias</span><span class="chip">${c.grave} graves</span>
     </div>
 
     <div class="abas">
@@ -128,9 +128,12 @@ async function abrirPerfil(id, resetAba = true) {
 // ---------- Carregar dados ----------
 async function carregarFiltros() {
   const classe = $('f-classe').value, turma = $('f-turma').value;
-  const f = await api('/api/filtros?classe=' + encodeURIComponent(classe));
+  const [f, todasClasses] = await Promise.all([
+    api('/api/filtros?classe=' + encodeURIComponent(classe)),
+    api('/api/classes')
+  ]);
   $('f-classe').innerHTML = '<option value="">Todas as classes</option>' +
-    f.classes.map(c => `<option>${esc(c)}</option>`).join('');
+    todasClasses.map(c => `<option>${esc(c)}</option>`).join('');
   $('f-turma').innerHTML = '<option value="">Todas as turmas</option>' +
     f.turmas.map(t => `<option>${esc(t)}</option>`).join('');
   $('f-classe').value = classe;
@@ -250,15 +253,35 @@ $('form-ocorrencia').addEventListener('submit', async e => {
 });
 
 $('btn-sair').onclick = async () => {
-  await enviar('/api/logout', 'POST');
+  try { await fetch('/api/logout', { method: 'POST' }); } catch { /* servidor parado */ }
   location.href = '/login.html';
 };
+
+// ---------- Utilizadores online (só coordenador) ----------
+async function atualizarOnline() {
+  if (!sessao || sessao.perfil !== 'coordenador') return;
+  try {
+    const lista = await api('/api/online');
+    $('painel-online').hidden = false;
+    $('online-total').textContent = lista.length;
+    const hora = d => new Date(d).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+    $('online-lista').innerHTML = lista.length ? lista.map(u => `
+      <div class="online-linha">
+        <span class="online-ponto"></span>
+        <span class="nome">${esc(u.nome)}</span>
+        <span class="chip">${u.perfil === 'coordenador' ? 'Coordenador' : 'Professor'}</span>
+        <span class="meta">Entrou às ${hora(u.entrou)}<br>Ativo às ${hora(u.ultimaAtividade)}</span>
+      </div>`).join('') : '<p class="suave">Ninguém online.</p>';
+  } catch { /* ignora: o pedido seguinte tenta outra vez */ }
+}
+
 
 // ---------- Arranque ----------
 (async () => {
   sessao = await api('/api/eu');
   $('user-nome').textContent = sessao.nome;
   $('user-perfil').textContent = sessao.perfil === 'coordenador' ? 'Coordenador' : 'Professor';
+  $('link-utilizadores').hidden = sessao.perfil !== 'coordenador';
   categorias = await api('/api/categorias');
   $('categoria').innerHTML = categorias.map(c => `<option value="${esc(c.id)}">${esc(c.nome)}</option>`).join('');
   $('categoria').dispatchEvent(new Event('change'));
@@ -266,4 +289,6 @@ $('btn-sair').onclick = async () => {
     Array.from({ length: 13 }, (_, i) => `<option>${i + 1}ª Classe</option>`).join('');
   await carregarFiltros();
   atualizar();
+  atualizarOnline();
+  setInterval(atualizarOnline, 30000);
 })();
