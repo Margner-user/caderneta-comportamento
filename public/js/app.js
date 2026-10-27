@@ -15,6 +15,7 @@ async function pesquisar() {
       <strong>Ocorrências (${a.ocorrencias.length})</strong>
       ${a.ocorrencias.map(o => `<div class="ocorrencia">${esc(o.data)} – ${esc(o.descricao)}</div>`).join('')}
       <button onclick="novaOcorrencia(${a.id})">+ Ocorrência</button>
+      <button onclick="eliminarAluno(${a.id})" style="background:#b00020">Eliminar</button>
     </div>`).join('') : '<p>Nenhum aluno encontrado.</p>';
 }
 
@@ -26,6 +27,11 @@ async function novaOcorrencia(id) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ descricao })
   });
+  pesquisar();
+}
+async function eliminarAluno(id) {
+  if (!confirm('Eliminar este aluno?')) return;
+  await fetch('/api/alunos/' + id, { method: 'DELETE' });
   pesquisar();
 }
 
