@@ -1,8 +1,4 @@
-**Nome:** Mário Wagner Miguel Pereira
 
-Nº: 20240328
-
-**Turma:** EINF5-M1
 
 **Relatório – Caderneta de Comportamento**
 
